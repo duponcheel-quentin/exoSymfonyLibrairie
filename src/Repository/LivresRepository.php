@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Livres;
+use App\Entity\Categories;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -14,6 +15,20 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class LivresRepository extends ServiceEntityRepository
 {
+
+    public function IdJoinCategories(Categories $categories)
+    {
+      return $this->createQueryBuilder('l')
+        ->addSelect('c')
+        ->leftJoin('l.categories', 'c')
+        ->andWhere('c.id = :val')
+        ->setParameter('val', $categories)
+        ->orderBy('l.id', 'ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+    }
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Livres::class);
