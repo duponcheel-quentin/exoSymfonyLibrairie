@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Livres;
 use App\Form\LivresType;
+use App\Form\SortFormType;
 use App\Repository\LivresRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,17 +12,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/")
+ * @Route("/livres")
  */
 class LivresController extends AbstractController
 {
     /**
-     * @Route("/", name="livres_index", methods={"GET"})
+     * @Route("/", name="livres_index", methods={"GET", "POST"})
      */
-    public function index(LivresRepository $livresRepository): Response
+    public function index(LivresRepository $livresRepository, Request $request): Response
     {
+
+        $form = $this->createForm(SortFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+          $data = $form->getData();
+          $livres = $livresRepository->findByCategories($data['categories']);
+        }
+        else {
+          $livres = $livresRepository->findAll();
+        }
         return $this->render('livres/index.html.twig', [
-            'livres' => $livresRepository->findAll(),
+          'livres' => $livres,
+          'form' => $form->createView()
         ]);
     }
 

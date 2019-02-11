@@ -5,6 +5,9 @@
 {% block body %}
     <h1>Livres index</h1>
 
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+
     <table class="table">
         <thead>
             <tr>
@@ -14,8 +17,6 @@
                 <th>Resume</th>
                 <th>Edition</th>
                 <th>Date</th>
-                <th>DateBorrowing</th>
-                <th>DateReturn</th>
                 <th>Status</th>
                 <th>Categories</th>
                 <th>actions</th>
@@ -30,8 +31,6 @@
                 <td>{{ livre.resume }}</td>
                 <td>{{ livre.edition }}</td>
                 <td>{{ livre.date ? livre.date|date('Y-m-d') : '' }}</td>
-                <td>{{ livre.dateBorrowing ? livre.dateBorrowing|date('Y-m-d') : '' }}</td>
-                <td>{{ livre.dateReturn ? livre.dateReturn|date('Y-m-d') : '' }}</td>
                 <td>{{ livre.status }}</td>
                 <td>{{ livre.categories.name }}</td>
                 <td>
