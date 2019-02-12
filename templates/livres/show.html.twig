@@ -31,6 +31,17 @@
                 <th>Date</th>
                 <td>{{ livre.date ? livre.date|date('Y-m-d') : '' }}</td>
             </tr>
+            {% if livre.user_id %}
+              <p class="italic">Livre emprunté par autoescape <a href="{{path("librairian_user", {"id" : book.borrower.id})}}">{{book.borrower.firstName}} {{book.borrower.lastName}}</a></p>
+            {% endif %}
+
+            {% for label, messages in app.flashes %}
+              {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endfor %}
             <tr>
                 <th>DateBorrowing</th>
                 <td>{{ livre.dateBorrowing ? livre.dateBorrowing|date('Y-m-d') : '' }}</td>

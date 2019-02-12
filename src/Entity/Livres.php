@@ -61,6 +61,13 @@ class Livres
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="livres")
+     */
+    private $emprunteur;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -173,4 +180,17 @@ class Livres
 
         return $this;
     }
+
+    public function getEmprunteur(): ?User
+    {
+        return $this->emprunteur;
+    }
+
+    public function setEmprunteur(?User $emprunteur): self
+    {
+        $this->emprunteur = $emprunteur;
+
+        return $this;
+    }
+
 }
