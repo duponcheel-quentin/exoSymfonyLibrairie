@@ -26,6 +26,16 @@ class User
      */
     private $userKey;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $librarian;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Library", inversedBy="users")
+     */
+    private $city;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +61,30 @@ class User
     public function setUserKey(int $userKey): self
     {
         $this->userKey = $userKey;
+
+        return $this;
+    }
+
+    public function getLibrarian(): ?string
+    {
+        return $this->librarian;
+    }
+
+    public function setLibrarian(string $librarian): self
+    {
+        $this->librarian = $librarian;
+
+        return $this;
+    }
+
+    public function getCity(): ?Library
+    {
+        return $this->city;
+    }
+
+    public function setCity(?Library $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

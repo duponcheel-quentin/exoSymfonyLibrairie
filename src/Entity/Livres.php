@@ -61,6 +61,11 @@ class Livres
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Library", inversedBy="livres")
+     */
+    private $city;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -170,6 +175,18 @@ class Livres
     public function setStatus(bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getCity(): ?Library
+    {
+        return $this->city;
+    }
+
+    public function setCity(?Library $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
