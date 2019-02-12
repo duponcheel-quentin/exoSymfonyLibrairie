@@ -62,17 +62,17 @@ class Livres
     private $status;
 
     /**
-<<<<<<< HEAD
+
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="livres")
      */
     private $emprunteur;
 
 
-=======
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Library", inversedBy="livres")
      */
     private $city;
->>>>>>> 0941147f88c3a9fcb8c9bd6a20723a0c03051fcf
+
 
     public function getId(): ?int
     {

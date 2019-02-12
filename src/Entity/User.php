@@ -41,6 +41,7 @@ class User
         $this->livres = new ArrayCollection();
     }
 
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $librarian;
@@ -80,7 +81,7 @@ class User
         return $this;
     }
 
-<<<<<<< HEAD
+
     /**
      * @return Collection|Livres[]
      */
@@ -95,7 +96,8 @@ class User
             $this->livres[] = $livre;
             $livre->setEmprunteur($this);
         }
-=======
+    }
+
     public function getLibrarian(): ?string
     {
         return $this->librarian;
@@ -104,12 +106,10 @@ class User
     public function setLibrarian(string $librarian): self
     {
         $this->librarian = $librarian;
->>>>>>> 0941147f88c3a9fcb8c9bd6a20723a0c03051fcf
 
         return $this;
     }
 
-<<<<<<< HEAD
     public function removeLivre(Livres $livre): self
     {
         if ($this->livres->contains($livre)) {
@@ -123,7 +123,7 @@ class User
         return $this;
     }
 
-=======
+
     public function getCity(): ?Library
     {
         return $this->city;
@@ -135,5 +135,5 @@ class User
 
         return $this;
     }
->>>>>>> 0941147f88c3a9fcb8c9bd6a20723a0c03051fcf
+
 }
