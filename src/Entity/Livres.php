@@ -62,11 +62,17 @@ class Livres
     private $status;
 
     /**
+<<<<<<< HEAD
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="livres")
      */
     private $emprunteur;
 
 
+=======
+     * @ORM\ManyToOne(targetEntity="App\Entity\Library", inversedBy="livres")
+     */
+    private $city;
+>>>>>>> 0941147f88c3a9fcb8c9bd6a20723a0c03051fcf
 
     public function getId(): ?int
     {
@@ -181,6 +187,7 @@ class Livres
         return $this;
     }
 
+
     public function getEmprunteur(): ?User
     {
         return $this->emprunteur;
@@ -189,6 +196,19 @@ class Livres
     public function setEmprunteur(?User $emprunteur): self
     {
         $this->emprunteur = $emprunteur;
+
+        return $this;
+    }
+
+
+    public function getCity(): ?Library
+    {
+        return $this->city;
+    }
+
+    public function setCity(?Library $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

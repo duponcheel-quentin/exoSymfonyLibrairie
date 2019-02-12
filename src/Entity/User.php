@@ -29,6 +29,7 @@ class User
     private $userKey;
 
     /**
+
      * @ORM\OneToMany(targetEntity="App\Entity\Livres", mappedBy="emprunteur")
      */
     private $livres;
@@ -39,6 +40,16 @@ class User
     {
         $this->livres = new ArrayCollection();
     }
+
+     * @ORM\Column(type="string", length=255)
+     */
+    private $librarian;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Library", inversedBy="users")
+     */
+    private $city;
+
 
     public function getId(): ?int
     {
@@ -69,6 +80,7 @@ class User
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * @return Collection|Livres[]
      */
@@ -83,10 +95,21 @@ class User
             $this->livres[] = $livre;
             $livre->setEmprunteur($this);
         }
+=======
+    public function getLibrarian(): ?string
+    {
+        return $this->librarian;
+    }
+
+    public function setLibrarian(string $librarian): self
+    {
+        $this->librarian = $librarian;
+>>>>>>> 0941147f88c3a9fcb8c9bd6a20723a0c03051fcf
 
         return $this;
     }
 
+<<<<<<< HEAD
     public function removeLivre(Livres $livre): self
     {
         if ($this->livres->contains($livre)) {
@@ -100,4 +123,17 @@ class User
         return $this;
     }
 
+=======
+    public function getCity(): ?Library
+    {
+        return $this->city;
+    }
+
+    public function setCity(?Library $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+>>>>>>> 0941147f88c3a9fcb8c9bd6a20723a0c03051fcf
 }
