@@ -62,9 +62,17 @@ class Livres
     private $status;
 
     /**
+
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="livres")
+     */
+    private $emprunteur;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Library", inversedBy="livres")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $library;
+
 
     public function getId(): ?int
     {
@@ -179,6 +187,19 @@ class Livres
         return $this;
     }
 
+
+    public function getEmprunteur(): ?User
+    {
+        return $this->emprunteur;
+    }
+
+    public function setEmprunteur(?User $emprunteur): self
+    {
+        $this->emprunteur = $emprunteur;
+
+        return $this;
+    }
+
     public function getLibrary(): ?Library
     {
         return $this->library;
@@ -190,4 +211,6 @@ class Livres
 
         return $this;
     }
+
+
 }

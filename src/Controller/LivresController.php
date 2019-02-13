@@ -10,6 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\BorrowType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Entity\User;
+// use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * @Route("/livres")
@@ -64,10 +68,30 @@ class LivresController extends AbstractController
     /**
      * @Route("/{id}", name="livres_show", methods={"GET"})
      */
-    public function show(Livres $livre): Response
+    public function show(Livres $livre, $id, Request $request): Response
     {
+      $form = $this->createForm(BorrowType::class);
+      $form->handleRequest($request);
+
+      if ($form->isSubmitted() && $form->isValid()) {
+          $data = $form->getData();
+          $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["code" => $data["code"]]);
+          if(!$user) {
+            $this->addFlash("danger", "Ce code utilisateur n'est pas valide");
+          }
+          else {
+            $book->setBorrower($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($book);
+            $entityManager->flush();
+            $this->addFlash("success", "Le livre a été emprunté");
+          }
+        }
+
+
         return $this->render('livres/show.html.twig', [
             'livre' => $livre,
+            'form' => $form->createView()
         ]);
     }
 

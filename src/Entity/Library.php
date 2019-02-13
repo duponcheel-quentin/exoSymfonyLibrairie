@@ -24,14 +24,15 @@ class Library
     private $city;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Livres", mappedBy="city")
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="library")
+     */
+    private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Livres", mappedBy="library")
      */
     private $livres;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="city")
-     */
-    private $users;
 
     public function __construct()
     {
@@ -57,37 +58,6 @@ class Library
     }
 
     /**
-     * @return Collection|Livres[]
-     */
-    public function getLivres(): Collection
-    {
-        return $this->livres;
-    }
-
-    public function addLivre(Livres $livre): self
-    {
-        if (!$this->livres->contains($livre)) {
-            $this->livres[] = $livre;
-            $livre->setCity($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLivre(Livres $livre): self
-    {
-        if ($this->livres->contains($livre)) {
-            $this->livres->removeElement($livre);
-            // set the owning side to null (unless already changed)
-            if ($livre->getCity() === $this) {
-                $livre->setCity(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|User[]
      */
     public function getUsers(): Collection
@@ -99,7 +69,7 @@ class Library
     {
         if (!$this->users->contains($user)) {
             $this->users[] = $user;
-            $user->setCity($this);
+            $user->setLibrary($this);
         }
 
         return $this;
@@ -110,11 +80,43 @@ class Library
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
             // set the owning side to null (unless already changed)
-            if ($user->getCity() === $this) {
-                $user->setCity(null);
+            if ($user->getLibrary() === $this) {
+                $user->setLibrary(null);
             }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection|Livres[]
+     */
+    public function getLivres(): Collection
+    {
+        return $this->livres;
+    }
+
+    public function addLivre(Livres $livre): self
+    {
+        if (!$this->livres->contains($livre)) {
+            $this->livres[] = $livre;
+            $livre->setLibrary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivre(Livres $livre): self
+    {
+        if ($this->livres->contains($livre)) {
+            $this->livres->removeElement($livre);
+            // set the owning side to null (unless already changed)
+            if ($livre->getLibrary() === $this) {
+                $livre->setLibrary(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
