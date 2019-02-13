@@ -35,12 +35,6 @@ class User
     private $livres;
 
 
-
-    public function __construct()
-    {
-        $this->livres = new ArrayCollection();
-    }
-
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -48,8 +42,15 @@ class User
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Library", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $city;
+    private $library;
+
+
+    public function __construct()
+    {
+        $this->livres = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -123,17 +124,15 @@ class User
         return $this;
     }
 
-
-    public function getCity(): ?Library
+    public function getLibrary(): ?Library
     {
-        return $this->city;
+        return $this->library;
     }
 
-    public function setCity(?Library $city): self
+    public function setLibrary(?Library $library): self
     {
-        $this->city = $city;
+        $this->library = $library;
 
         return $this;
     }
-
 }

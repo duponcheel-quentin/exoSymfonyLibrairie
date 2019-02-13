@@ -67,11 +67,11 @@ class Livres
      */
     private $emprunteur;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Library", inversedBy="livres")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $city;
+    private $library;
 
 
     public function getId(): ?int
@@ -200,17 +200,17 @@ class Livres
         return $this;
     }
 
-
-    public function getCity(): ?Library
+    public function getLibrary(): ?Library
     {
-        return $this->city;
+        return $this->library;
     }
 
-    public function setCity(?Library $city): self
+    public function setLibrary(?Library $library): self
     {
-        $this->city = $city;
+        $this->library = $library;
 
         return $this;
     }
+
 
 }
