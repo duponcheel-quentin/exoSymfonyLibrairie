@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Library;
 use App\Entity\Livres;
 use App\Entity\Categories;
 use Symfony\Component\Form\AbstractType;
@@ -21,6 +22,10 @@ class LivresType extends AbstractType
             ->add('edition')
             ->add('date')
             ->add('status')
+            ->add('library', EntityType::class, [
+              'class'=>Library::class,
+              'choice_label'=>'city'
+            ])
             ->add('categories', EntityType::class, [
               'class'=>Categories::class,
               'choice_label'=>'name'
