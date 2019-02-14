@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Library;
 use App\Entity\Livres;
 use App\Form\LivresType;
 use App\Form\SortFormType;
@@ -66,7 +67,7 @@ class LivresController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="livres_show", methods={"GET"})
+     * @Route("/{id}", name="livres_show")
      */
     public function show(Livres $livre, $id, Request $request): Response
     {
@@ -75,14 +76,14 @@ class LivresController extends AbstractController
 
       if ($form->isSubmitted() && $form->isValid()) {
           $data = $form->getData();
-          $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["code" => $data["code"]]);
+          $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["userKey" => $data["userKey"]]);
           if(!$user) {
             $this->addFlash("danger", "Ce code utilisateur n'est pas valide");
           }
           else {
-            $book->setBorrower($user);
+            $livre->setEmprunteur($user);
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($book);
+            $entityManager->persist($livre);
             $entityManager->flush();
             $this->addFlash("success", "Le livre a été emprunté");
           }
@@ -93,6 +94,24 @@ class LivresController extends AbstractController
             'livre' => $livre,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/livres/back/{id}", name="librairian_book_back")
+     */
+    public function bookBack(Livres $livre)
+    {
+      if($livre->getStatus()) {
+        $this->addFlash("danger", "Ce livre n'a jamais été emprunté");
+      }
+      else {
+        $livre->setEmprunteur(null);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($livre);
+        $entityManager->flush();
+        $this->addFlash("success", "Le livre a été rendu");
+      }
+      return $this->redirectToRoute('livres_show', ["id" => $livre->getId()]);
     }
 
     /**

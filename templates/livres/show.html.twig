@@ -31,8 +31,8 @@
                 <th>Date</th>
                 <td>{{ livre.date ? livre.date|date('Y-m-d') : '' }}</td>
             </tr>
-            {% if livre.user_id %}
-              <p class="italic">Livre emprunté par autoescape <a href="{{path("librairian_user", {"id" : book.borrower.id})}}">{{book.borrower.firstName}} {{book.borrower.lastName}}</a></p>
+            {% if livre.emprunteur %}
+              <p class="italic">Livre emprunté par autoescape <a href="{{path("livres_show", {"id" : livre.emprunteur.id})}}">{{livre.emprunteur.userName}} </a></p>
             {% endif %}
 
             {% for label, messages in app.flashes %}
@@ -53,6 +53,18 @@
             <tr>
                 <th>Status</th>
                 <td>{{ livre.status }}</td>
+            </tr>
+            <tr>
+              {% if livre.status %}
+                <span class="badge badge-success mr-5 p-2">Disponible</span>
+                {{ form_start(form) }}
+                  {{ form_widget(form.userKey) }}
+                  {{ form_widget(form.Emprunter) }}
+                {{ form_end(form) }}
+              {% else %}
+                <span class="badge badge-danger mr-5 p-2">Indisponible</span>
+                <a href="{{ path("librairian_book_back", {"id" : livre.id})}}" class="btn btn-success">Retour livre</a>
+              {% endif %}
             </tr>
         </tbody>
     </table>
